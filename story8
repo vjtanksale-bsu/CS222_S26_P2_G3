@@ -1,1 +1,73 @@
+from scheduler import parse_file, find_schedule
 
+def run_story8():
+
+    courses = parse_file("courses.txt")
+
+    print("Available courses:")
+
+    for c in courses:
+
+        print(c.code, c.section, c.days, c.start, c.end)
+
+    try:
+
+        n = int(input("How many courses: "))
+
+    except:
+
+        print("Invalid input")
+
+        return
+
+    if n <= 0:
+
+        print("No valid schedule can be found.")
+
+        return
+
+    selected = []
+
+    for i in range(n):
+
+        code = input("Enter course code: ")
+
+        found = False
+
+        for c in courses:
+
+            if c.code == code:
+
+                selected.append(c)
+
+                found = True
+
+                break
+
+        if not found:
+
+            print("Course not found:", code)
+
+    if len(selected) == 0:
+
+        print("No valid schedule can be found.")
+
+        return
+
+    result = find_schedule(selected)
+
+    if result is None:
+
+        print("No valid schedule can be found.")
+
+        return
+
+    print("\nValid schedule:")
+
+    for c in result:
+
+        print(c.code, c.section, c.days, c.start, c.end)
+
+if __name__ == "__main__":
+
+    run_story8()
