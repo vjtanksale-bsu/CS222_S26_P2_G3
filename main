@@ -1,0 +1,5 @@
+from story8 import run_story8
+
+if __name__ == "__main__":
+
+    run_story8()

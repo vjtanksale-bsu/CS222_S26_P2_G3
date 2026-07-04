@@ -1,0 +1,51 @@
+import unittest
+
+from scheduler import Course, overlap, valid_schedule, find_schedule
+
+class TestScheduler(unittest.TestCase):
+
+    def test_overlap_true(self):
+
+        c1 = Course("CS120", "001", "MWF", "900", "1000")
+
+        c2 = Course("CS121", "002", "MWF", "930", "1100")
+
+        self.assertTrue(overlap(c1, c2))
+
+    def test_overlap_false(self):
+
+        c1 = Course("CS120", "001", "MWF", "900", "1000")
+
+        c2 = Course("CS121", "002", "TR", "900", "1000")
+
+        self.assertFalse(overlap(c1, c2))
+
+    def test_valid_schedule(self):
+
+        c1 = Course("CS120", "001", "MWF", "900", "1000")
+
+        c2 = Course("CS121", "002", "TR", "900", "1000")
+
+        self.assertTrue(valid_schedule([c1, c2]))
+
+    def test_invalid_schedule(self):
+
+        c1 = Course("CS120", "001", "MWF", "900", "1000")
+
+        c2 = Course("CS121", "002", "MWF", "930", "1100")
+
+        self.assertFalse(valid_schedule([c1, c2]))
+
+    def test_find_schedule_none(self):
+
+        c1 = Course("A", "1", "MWF", "900", "1000")
+
+        c2 = Course("B", "1", "MWF", "900", "1000")
+
+        result = find_schedule([c1, c2])
+
+        self.assertIsNone(result)
+
+if __name__ == "__main__":
+
+    unittest.main()
