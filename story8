@@ -1,73 +1,57 @@
-from scheduler import parse_file, find_schedule
+from scheduler import find_schedule, normalize_course_code, parse_file
 
-def run_story8():
 
-    courses = parse_file("courses.txt")
+NO_VALID_SCHEDULE_MESSAGE = "No valid schedule can be found."
 
-    print("Available courses:")
 
-    for c in courses:
+def run_story8(course_file="courses.txt", input_func=input, output_func=print):
+    courses = parse_file(course_file)
 
-        print(c.code, c.section, c.days, c.start, c.end)
+    output_func("Available courses:")
+    for course in courses:
+        output_func(
+            f"{course.code} {course.section} {course.days} "
+            f"{course.start} {course.end}"
+        )
 
     try:
+        number_of_courses = int(input_func("How many courses: "))
+    except ValueError:
+        output_func("Invalid input")
+        return None
 
-        n = int(input("How many courses: "))
+    if number_of_courses <= 0:
+        output_func(NO_VALID_SCHEDULE_MESSAGE)
+        return None
 
-    except:
+    requested_course_codes = []
+    offered_course_codes = {course.code for course in courses}
 
-        print("Invalid input")
+    for _ in range(number_of_courses):
+        course_code = normalize_course_code(input_func("Enter course code: "))
 
-        return
+        if course_code not in offered_course_codes:
+            output_func(f"Course not found: {course_code}")
+            return None
 
-    if n <= 0:
+        requested_course_codes.append(course_code)
 
-        print("No valid schedule can be found.")
-
-        return
-
-    selected = []
-
-    for i in range(n):
-
-        code = input("Enter course code: ")
-
-        found = False
-
-        for c in courses:
-
-            if c.code == code:
-
-                selected.append(c)
-
-                found = True
-
-                break
-
-        if not found:
-
-            print("Course not found:", code)
-
-    if len(selected) == 0:
-
-        print("No valid schedule can be found.")
-
-        return
-
-    result = find_schedule(selected)
+    result = find_schedule(courses, requested_course_codes)
 
     if result is None:
+        output_func(NO_VALID_SCHEDULE_MESSAGE)
+        return None
 
-        print("No valid schedule can be found.")
+    output_func("")
+    output_func("Valid schedule:")
+    for course in result:
+        output_func(
+            f"{course.code} {course.section} {course.days} "
+            f"{course.start} {course.end}"
+        )
 
-        return
+    return result
 
-    print("\nValid schedule:")
-
-    for c in result:
-
-        print(c.code, c.section, c.days, c.start, c.end)
 
 if __name__ == "__main__":
-
     run_story8()
