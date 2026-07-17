@@ -1,5 +1,6 @@
 import os
 
+
 def LoadDisplayCourses(filePath):
     if not os.path.exists(filePath):
         print(f"Error: The course input file '{filePath}' could not be found.")
@@ -8,18 +9,20 @@ def LoadDisplayCourses(filePath):
     offeredCourses = set()
 
     try:
-        with open(filePath, 'r') as file:
+        with open(filePath, "r", encoding="utf-8") as file:
             for line in file:
                 line = line.strip()
                 if not line:
                     continue
-                parts = line.split(',')
+
+                parts = line.split()
                 courseNumber = parts[0].strip().upper()
                 offeredCourses.add(courseNumber)
-    except Exception as e:
-        print(f"Error reading file: {e}")
+    except Exception as error:
+        print(f"Error reading file: {error}")
         return []
-    sortedCourses = sorted(list(offeredCourses))
+
+    sortedCourses = sorted(offeredCourses)
     print("\n--- Offered Course Numbers ---")
     for course in sortedCourses:
         print(course)
