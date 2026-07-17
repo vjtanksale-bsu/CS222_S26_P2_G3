@@ -51,7 +51,7 @@ CS222 005 TR 1100 1215
 4. Run:
 
 ```bash
-python story8.py
+python main.py
 ```
 
 The program will display the offered courses, ask how many courses the student wants, collect the requested course numbers, and display a valid schedule or a message explaining that no valid schedule was found.
@@ -68,6 +68,7 @@ The test files cover course input, course-count validation, offered-course valid
 
 ## Main Project Files
 
+- `main.py`: runs the complete course scheduling process
 - `UserStoryOne.py`: loads and displays offered course numbers
 - `course_count_input.py`: accepts the requested course count
 - `course_count_validation.py`: validates the requested course count
